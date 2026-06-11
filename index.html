@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Text Pad</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+}
+
+.container{
+    width:420px;
+    padding:30px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
+    box-shadow:0 8px 32px rgba(0,0,0,0.2);
+    color:white;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+textarea,
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:none;
+    border-radius:10px;
+    outline:none;
+    font-size:15px;
+}
+
+textarea{
+    resize:none;
+    height:120px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#ffffff;
+    color:#764ba2;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.03);
+}
+
+#output{
+    margin-top:15px;
+    padding:10px;
+    border-radius:10px;
+    background:rgba(255,255,255,0.2);
+    min-height:50px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>🔒 Secure Text Pad</h2>
+
+    <textarea id="note" placeholder="Write your secret note here..."></textarea>
+
+    <input type="password" id="password" placeholder="Create Password">
+
+    <button onclick="saveText()">Save Note</button>
+
+    <br><br>
+
+    <input type="password" id="viewPassword" placeholder="Enter Password to View">
+
+    <button onclick="viewText()">View Note</button>
+
+    <div id="output"></div>
+</div>
+
+<script>
+function saveText(){
+    let note=document.getElementById("note").value;
+    let password=document.getElementById("password").value;
+
+    if(note==="" || password===""){
+        alert("Please enter note and password!");
+        return;
+    }
+
+    localStorage.setItem("secureNote", note);
+    localStorage.setItem("securePassword", password);
+
+    alert("✅ Note Saved Successfully!");
+}
+
+function viewText(){
+    let enteredPassword=document.getElementById("viewPassword").value;
+    let savedPassword=localStorage.getItem("securePassword");
+
+    if(enteredPassword===savedPassword){
+        document.getElementById("output").innerHTML =
+        "<strong>Your Note:</strong><br>" +
+        localStorage.getItem("secureNote");
+    }else{
+        alert("❌ Incorrect Password!");
+    }
+}
+</script>
+
+</body>
+</html>
